@@ -930,17 +930,12 @@ h1 {
 
 .legal-page {
   min-height: calc(100vh - 210px);
-  padding: 64px 0 76px;
+  padding: 54px 0 76px;
 }
 
 .legal-header {
   max-width: 760px;
   margin-bottom: 34px;
-}
-
-.legal-header .bv-button {
-  width: max-content;
-  margin-bottom: 28px;
 }
 
 .legal-header h1 {

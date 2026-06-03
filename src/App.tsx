@@ -19,8 +19,8 @@ const orders = {
     ['Fermentisani sos', 'završeno']
   ],
   ru: [
-    ['Chili džem, 4 шт', 'готово'],
-    ['Granola, 2 пакета', 'в работе'],
+    ['Чили-джем, 4 шт', 'готово'],
+    ['Гранола, 2 пакета', 'в работе'],
     ['Сушеное мясо, 1 кг', 'новый'],
     ['Ферментированный соус', 'завершено']
   ],
@@ -649,9 +649,6 @@ function LegalPage({ language, page }: { language: Language; page: Exclude<PageS
   return (
     <section className="legal-page">
       <div className="legal-header">
-        <AnchorButton href="/" variant="secondary">
-          BatchVault
-        </AnchorButton>
         <h1>{content.title}</h1>
         <p>{content.lead}</p>
         <span>{content.updated}</span>
@@ -682,18 +679,27 @@ function LegalPage({ language, page }: { language: Language; page: Exclude<PageS
 
 function DashboardPreview({ language }: { language: Language }) {
   const t = copy[language];
+  const dashboardNav = [
+    t.mockNavDashboard,
+    t.mockNavRecipes,
+    t.mockNavIngredients,
+    t.mockNavPrices,
+    t.mockNavOrders,
+    t.mockNavClients
+  ];
+
   return (
     <div className="dashboard-preview">
       <div className="dash-top">
         <span />
         <span />
         <span />
-        BatchVault dashboard
+        {t.mockWindowTitle}
       </div>
       <div className="dash-shell">
         <aside className="dash-sidebar">
           <strong>BatchVault</strong>
-          {['Dashboard', 'Recipes', 'Ingredients', 'Prices', 'Orders', 'Clients'].map((item, index) => (
+          {dashboardNav.map((item, index) => (
             <div className={index === 0 ? 'active' : ''} key={item}>
               {item}
             </div>
