@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BatchVault Landing Mockups</title>
+  <style>
+    :root {
+      --ink: #201816;
+      --muted: #6d625d;
+      --line: #e6dfd7;
+      --paper: #fbf8f3;
+      --card: #ffffff;
+      --burgundy: #7a2639;
+      --copper: #b76e36;
+      --sage: #486f5b;
+      --blue: #2f5f8f;
+      --charcoal: #1f2428;
+      --cream: #f4eadb;
+      --shadow: 0 18px 55px rgba(58, 38, 27, .14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #efe8df;
+    }
+
+    .wrap {
+      width: min(1480px, calc(100vw - 40px));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    .intro {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+
+    .intro h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .intro p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .hint {
+      padding: 10px 14px;
+      border: 1px solid rgba(122, 38, 57, .2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      color: #693344;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .direction {
+      min-height: 790px;
+      overflow: hidden;
+      border: 1px solid rgba(58, 38, 27, .12);
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .direction:hover {
+      transform: translateY(-2px);
+      border-color: rgba(122, 38, 57, .42);
+      box-shadow: 0 22px 70px rgba(58, 38, 27, .18);
+    }
+
+    .direction.selected {
+      outline: 4px solid rgba(122, 38, 57, .18);
+      border-color: var(--burgundy);
+    }
+
+    .direction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .letter {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .hero {
+      min-height: 360px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 14px 0 22px;
+      color: inherit;
+      opacity: .78;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 15px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--burgundy);
+    }
+
+    .btn.secondary {
+      color: inherit;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(0,0,0,.09);
+    }
+
+    .visual {
+      margin-top: 24px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 18px 40px rgba(0,0,0,.12);
+    }
+
+    .appbar {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 12px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #d9b09b; }
+
+    .dash {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      min-height: 210px;
+      font-size: 11px;
+    }
+
+    .side {
+      padding: 12px;
+      background: rgba(32, 24, 22, .95);
+      color: rgba(255,255,255,.72);
+    }
+
+    .side strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+
+    .side span {
+      display: block;
+      margin: 10px 0;
+    }
+
+    .dash-main {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .metric {
+      min-height: 54px;
+      padding: 9px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.07);
+    }
+
+    .metric b { display: block; font-size: 17px; margin-bottom: 4px; }
+    .metric span { color: var(--muted); }
+
+    .table {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.07);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1.1fr .7fr .8fr;
+      gap: 8px;
+      align-items: center;
+      min-height: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      justify-content: center;
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      background: #f2e6db;
+      color: #74402c;
+    }
+
+    .section {
+      padding: 22px 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section h3 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .bullets {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.38;
+    }
+
+    .bullets li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 8px;
+    }
+
+    .check {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--sage);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .flow {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(5, 1fr);
+      font-size: 11px;
+      color: #fff;
+    }
+
+    .flow div {
+      min-height: 58px;
+      padding: 8px;
+      border-radius: 10px;
+      background: rgba(122,38,57,.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .price-band {
+      margin-top: 14px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #fff7ea;
+      border: 1px solid #ecd5b3;
+      font-size: 14px;
+    }
+
+    .price-band b { font-size: 24px; color: var(--burgundy); }
+
+    .a .direction-header { background: var(--burgundy); }
+    .a .hero { background: linear-gradient(145deg, #fff6e7, #f9e5d4); }
+    .a .eyebrow { color: var(--burgundy); }
+
+    .b .direction-header { background: var(--charcoal); }
+    .b .hero { color: #fff; background: linear-gradient(145deg, #23282d, #3d2b2b); }
+    .b .lead { color: rgba(255,255,255,.75); }
+    .b .visual { background: #f8fafc; }
+    .b .btn { background: var(--copper); color: #1c120c; }
+
+    .c .direction-header { background: var(--blue); }
+    .c .hero { background: linear-gradient(145deg, #e8f2f4, #f7efe4); }
+    .c .eyebrow { color: var(--blue); }
+    .c .btn { background: var(--blue); }
+
+    .phone-stage {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 10px 18px;
+    }
+
+    .phone {
+      width: 126px;
+      min-height: 226px;
+      border: 8px solid #1d2024;
+      border-radius: 28px;
+      background: #fbfaf7;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0,0,0,.2);
+      font-size: 10px;
+    }
+
+    .phone-top {
+      padding: 12px 10px 8px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--burgundy), var(--copper));
+    }
+
+    .phone-body { padding: 9px; display: grid; gap: 8px; }
+
+    .phone-card {
+      padding: 8px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    .route {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .route div {
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(0,0,0,.08);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1080px) {
+      .grid { grid-template-columns: 1fr; }
+      .direction { min-height: auto; }
+      .intro { display: block; }
+      .hint { display: inline-block; margin-top: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="intro">
+      <div>
+        <h1>BatchVault: три возможных направления лендинга</h1>
+        <p>Все варианты держат фокус на домашних и малых производителях еды: рецепты, себестоимость, заказы, клиенты и прибыль. Отличается тон: теплый бренд, рабочий кабинет или мобильный помощник.</p>
+      </div>
+      <div class="hint">Кликни по варианту, который ближе</div>
+    </div>
+
+    <section class="grid">
+      <article class="direction a" onclick="selectCard(this)">
+        <div class="direction-header">
+          <span>Теплый продуктовый лендинг</span>
+          <span class="letter">A</span>
+        </div>
+        <div class="hero">
+          <p class="eyebrow">Za male proizvođače hrane</p>
+          <h2>Od kućne kuhinje do malog brenda hrane</h2>
+          <p class="lead">BatchVault drži recepte, troškove, porudžbine i kupce na jednom mestu, bez haosa u svesci, Excelu i porukama.</p>
+          <div class="cta-row">
+            <button class="btn">Prijavi se za pilot</button>
+            <button class="btn secondary">Pogledaj kako radi</button>
+          </div>
+          <div class="visual">
+            <div class="appbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Recipe to profit</div>
+            <div class="dash">
+              <div class="side"><strong>BatchVault</strong><span>Recepti</span><span>Sastojci</span><span>Porudžbine</span><span>Kupci</span></div>
+              <div class="dash-main">
+                <div class="metric-row">
+                  <div class="metric"><b>38</b><span>porudžbina</span></div>
+                  <div class="metric"><b>12.450</b><span>RSD profit</span></div>
+                  <div class="metric"><b>7</b><span>recepta</span></div>
+                </div>
+                <div class="table">
+                  <div class="row"><b>Chili džem</b><span>420 RSD</span><span class="pill">spremno</span></div>
+                  <div class="row"><b>Granola</b><span>310 RSD</span><span class="pill">u toku</span></div>
+                  <div class="row"><b>Sušeno meso</b><span>690 RSD</span><span class="pill">novo</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Как ощущается</h3>
+          <ul class="bullets">
+            <li><span class="check">✓</span><span>Самый человечный вариант: говорит с тем, кто продает еду через Instagram, Viber, WhatsApp и локальные маркеты.</span></li>
+            <li><span class="check">✓</span><span>Не звучит как ERP, но показывает, что продукт уже закрывает реальные операционные задачи.</span></li>
+            <li><span class="check">✓</span><span>Хорош для первого запуска и проверки спроса.</span></li>
+          </ul>
+          <div class="price-band"><b>990 RSD</b> mesečno<br>Manje od greške u jednoj maloj turi.</div>
+        </div>
+      </article>
+
+      <article class="direction b" onclick="selectCard(this)">
+        <div class="direction-header">
+          <span>Операционный SaaS</span>
+          <span class="letter">B</span>
+        </div>
+        <div class="hero">
+          <p class="eyebrow">Kontrola troškova i porudžbina</p>
+          <h2>Jedan operativni panel za mali food business</h2>
+          <p class="lead">Prati cene sastojaka, izračunaj cenu koštanja, vodi proizvode, narudžbine, klijente i maržu bez prebacivanja između tabela.</p>
+          <div class="cta-row">
+            <button class="btn">Zatraži pristup</button>
+            <button class="btn secondary">Vidi funkcije</button>
+          </div>
+          <div class="visual">
+            <div class="appbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Dashboard</div>
+            <div class="dash">
+              <div class="side"><strong>BV</strong><span>Dashboard</span><span>Prices</span><span>Products</span><span>Orders</span></div>
+              <div class="dash-main">
+                <div class="metric-row">
+                  <div class="metric"><b>86%</b><span>margin</span></div>
+                  <div class="metric"><b>24</b><span>clients</span></div>
+                  <div class="metric"><b>5</b><span>pending</span></div>
+                </div>
+                <div class="table">
+                  <div class="row"><b>Porudžbina #128</b><span>3.200 RSD</span><span class="pill">ready</span></div>
+                  <div class="row"><b>Junetina</b><span>1.180/kg</span><span class="pill">price</span></div>
+                  <div class="row"><b>Profit</b><span>14.780 RSD</span><span class="pill">month</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Как ощущается</h3>
+          <ul class="bullets">
+            <li><span class="check">✓</span><span>Сильнее показывает продуктовую глубину: dashboard, цены, маржа, статусы, таблицы.</span></li>
+            <li><span class="check">✓</span><span>Лучше подойдет для производителей, которые уже стабильно продают и хотят контроль.</span></li>
+            <li><span class="check">✓</span><span>Риск: может выглядеть тяжелее и ближе к ERP, чем нужно для домашнего сегмента.</span></li>
+          </ul>
+          <div class="flow">
+            <div>Recept</div>
+            <div>Sastojci</div>
+            <div>Cena</div>
+            <div>Porudžbina</div>
+            <div>Profit</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction c" onclick="selectCard(this)">
+        <div class="direction-header">
+          <span>Mobile-first пилот</span>
+          <span class="letter">C</span>
+        </div>
+        <div class="hero">
+          <p class="eyebrow">Web za podešavanje, telefon za svaki dan</p>
+          <h2>Porudžbine, kupci i profit u džepu</h2>
+          <p class="lead">Napravi recepte i cene na webu, a zatim prati narudžbine, klijente i poslovni puls iz mobilne aplikacije i widgeta.</p>
+          <div class="cta-row">
+            <button class="btn">Testiraj iOS pilot</button>
+            <button class="btn secondary">Pogledaj web kabinet</button>
+          </div>
+          <div class="phone-stage">
+            <div class="phone">
+              <div class="phone-top">Orders</div>
+              <div class="phone-body">
+                <div class="phone-card"><b>Granola 2x</b><br><span class="pill">u toku</span></div>
+                <div class="phone-card"><b>Milica P.</b><br>Telegram, Beograd</div>
+                <div class="phone-card"><b>Ready today</b><br>3 porudžbine</div>
+              </div>
+            </div>
+            <div class="phone">
+              <div class="phone-top">Profit</div>
+              <div class="phone-body">
+                <div class="phone-card"><b>42.600 RSD</b><br>revenue</div>
+                <div class="phone-card"><b>16.900 RSD</b><br>profit</div>
+                <div class="phone-card"><b>8</b><br>recipes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Как ощущается</h3>
+          <ul class="bullets">
+            <li><span class="check">✓</span><span>Подчеркивает связку web + iOS, что уже есть в продукте и отличает от простого Excel-шаблона.</span></li>
+            <li><span class="check">✓</span><span>Хорошо для пилота: “проверь заказы на ходу”, “быстро поменяй статус”, “виджет с пульсом бизнеса”.</span></li>
+            <li><span class="check">✓</span><span>Риск: может недопродать расчет себестоимости, если сделать hero слишком мобильным.</span></li>
+          </ul>
+          <div class="route">
+            <div><b>Web</b><br>recepti, sastojci, cene, proizvodi</div>
+            <div><b>Mobile</b><br>porudžbine, kupci, statusi, profit</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function selectCard(card) {
+      document.querySelectorAll('.direction').forEach((item) => item.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+  </script>
+</body>
+</html>

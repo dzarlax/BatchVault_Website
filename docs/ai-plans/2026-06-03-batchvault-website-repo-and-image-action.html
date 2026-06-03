@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BatchVault Website repository and image workflow plan</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f3ee;
+      --surface: #ffffff;
+      --text: #1d1a18;
+      --muted: #6f625b;
+      --line: #e4d8cf;
+      --accent: #7b273a;
+      --ok: #2f6f4e;
+      --warn: #9a651f;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    main {
+      width: min(980px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 21px;
+      margin: 28px 0 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    h3 {
+      font-size: 16px;
+      margin: 18px 0 8px;
+    }
+    p {
+      margin: 8px 0;
+    }
+    ul, ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+    li {
+      margin: 5px 0;
+    }
+    code {
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: #f2e8df;
+      color: #381b16;
+    }
+    .card {
+      margin: 18px 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .approval {
+      border-color: rgba(123, 39, 58, 0.35);
+      background: #fff7f8;
+    }
+    .badge {
+      display: inline-block;
+      margin-right: 6px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: var(--surface);
+    }
+    th, td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f4ebe4;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>BatchVault Website repository and image workflow plan</h1>
+    <p class="muted">Created: 2026-06-03. Scope: <code>D:\Projects\Code\Personal\BatchVault\WebSite</code>.</p>
+
+    <section class="card">
+      <p><span class="badge">Goal</span> Turn the current landing project into a standalone repository named <code>BatchVault_Website</code> and add a GitHub Actions workflow that builds the frontend first, then builds a Docker image from the already-built frontend artifact.</p>
+    </section>
+
+    <h2>Current Behavior</h2>
+    <ul>
+      <li><code>WebSite</code> is not currently a git repository. <code>git status</code> reports that it is outside a git repo.</li>
+      <li>The sibling BatchVault naming pattern already includes <code>BatchVault_Back</code>, <code>BatchVault_Front</code>, and <code>BatchVault_iOS</code>.</li>
+      <li>The app is a Vite React frontend with a small Fastify API/server and SQLite lead storage.</li>
+      <li><code>vite.config.ts</code> builds frontend assets into <code>dist/client</code>.</li>
+      <li>The current <code>Dockerfile</code> is multi-stage and runs <code>npm run build</code> inside Docker, then installs production dependencies in the runtime stage.</li>
+      <li><code>docker-compose.dev.yml</code> uses <code>node:22-bookworm-slim</code> directly for hot reload and does not depend on the production <code>Dockerfile</code>.</li>
+      <li>There are local-only artifacts that should not enter the repository: <code>node_modules</code>, <code>.data</code>, <code>dist</code>, Playwright output, and temporary screenshots.</li>
+    </ul>
+
+    <h2>Desired Behavior</h2>
+    <ul>
+      <li>Initialize this folder as a standalone git repository with the remote/repository name <code>BatchVault_Website</code>.</li>
+      <li>Keep the deployable image free from frontend build-time <code>node_modules</code> and dev dependencies.</li>
+      <li>Use a two-job GitHub Actions pipeline:
+        <ol>
+          <li><code>build_frontend</code>: install dependencies, run <code>npm run check</code>, run <code>npm run build</code>, upload <code>dist/client</code> as an artifact.</li>
+          <li><code>build_image</code>: download the built frontend artifact, build a runtime Docker image, and push it to GHCR.</li>
+        </ol>
+      </li>
+      <li>Publish image tags suitable for deployment, for example <code>latest</code> on the default branch and SHA tags for traceability.</li>
+      <li>Keep dev compose hot reload unchanged.</li>
+    </ul>
+
+    <h2>Naming</h2>
+    <table>
+      <thead>
+        <tr><th>Thing</th><th>Proposed value</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GitHub repository</td>
+          <td><code>BatchVault_Website</code></td>
+          <td>Matches the existing BatchVault repo naming style requested by the user.</td>
+        </tr>
+        <tr>
+          <td>npm package name</td>
+          <td><code>batchvault-website</code></td>
+          <td>Already present and valid; no need to change for repo naming.</td>
+        </tr>
+        <tr>
+          <td>GHCR image</td>
+          <td><code>ghcr.io/dzarlax/batchvault_website</code></td>
+          <td>Docker image references must be lowercase. This keeps the repo logic while avoiding invalid uppercase image names.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Assumptions</h2>
+    <ul>
+      <li>The GitHub owner remains <code>dzarlax</code>.</li>
+      <li>The default branch should be <code>main</code> unless GitHub creates a different default.</li>
+      <li>GHCR publishing should use <code>GITHUB_TOKEN</code> with <code>packages: write</code>; no extra registry secret is needed.</li>
+      <li>The runtime server still needs production Node dependencies such as <code>fastify</code>, <code>@fastify/static</code>, and <code>better-sqlite3</code>. The image will contain production <code>node_modules</code>, but not the frontend build job's <code>node_modules</code>.</li>
+      <li>SQLite data remains external via <code>/data</code> and <code>LEADS_DB_PATH</code>.</li>
+    </ul>
+
+    <h2>Likely File Changes</h2>
+    <ul>
+      <li><code>.gitignore</code>: add <code>.playwright-mcp/</code>, generated screenshots, and any other local-only artifacts found during implementation.</li>
+      <li><code>.dockerignore</code>: make sure local artifacts and docs/mockups are excluded from image contexts.</li>
+      <li><code>Dockerfile</code> or a new <code>Dockerfile.image</code>: create a runtime-only image path that copies already-built <code>dist/client</code>, <code>server</code>, and package files, then runs <code>npm ci --omit=dev</code>.</li>
+      <li><code>.github/workflows/build-image.yml</code>: add the two-job GitHub Actions workflow.</li>
+      <li><code>README.md</code>: add repo purpose, commands, environment variables, image name, and local/dev/prod notes.</li>
+      <li>Potentially <code>AGENTS.md</code>: if absent in this standalone repo, add concise project commands and architecture notes after repo setup. The user-provided AGENTS instructions already apply in this session, but a new repo should carry its own basics.</li>
+    </ul>
+
+    <h2>Implementation Steps</h2>
+    <ol>
+      <li>Clean repository boundaries:
+        <ul>
+          <li>Verify no build output remains in <code>dist</code>.</li>
+          <li>Remove local generated screenshots from the working tree if they are not needed.</li>
+          <li>Keep <code>.data</code>, <code>node_modules</code>, screenshots, and Playwright output ignored.</li>
+        </ul>
+      </li>
+      <li>Initialize git:
+        <ul>
+          <li>Run <code>git init</code> in <code>WebSite</code>.</li>
+          <li>Set branch to <code>main</code>.</li>
+          <li>Inspect <code>git status --short</code> before any commit.</li>
+        </ul>
+      </li>
+      <li>Create or connect GitHub repo:
+        <ul>
+          <li>Create <code>BatchVault_Website</code> under <code>dzarlax</code> if it does not exist.</li>
+          <li>Add remote <code>origin</code>.</li>
+          <li>Do not push until the user explicitly approves a commit/push step.</li>
+        </ul>
+      </li>
+      <li>Add runtime-only image build:
+        <ul>
+          <li>Prefer adding <code>Dockerfile.image</code> so the current local multi-stage <code>Dockerfile</code> can remain useful for manual builds.</li>
+          <li><code>Dockerfile.image</code> will require <code>dist/client</code> to already exist in the Docker build context.</li>
+          <li>Final image will copy only <code>dist</code>, <code>server</code>, <code>package.json</code>, and <code>package-lock.json</code>, then run production install.</li>
+        </ul>
+      </li>
+      <li>Add GitHub Actions workflow:
+        <ul>
+          <li>Job 1: checkout, setup Node 22, <code>npm ci</code>, <code>npm run check</code>, <code>npm run build</code>, upload <code>dist/client</code>.</li>
+          <li>Job 2: checkout, download frontend artifact to <code>dist/client</code>, setup Buildx, login to GHCR, build and push image with <code>Dockerfile.image</code>.</li>
+          <li>Use <code>docker/metadata-action</code> for tags: branch, SHA, and <code>latest</code> on default branch.</li>
+        </ul>
+      </li>
+      <li>Verify locally before commit:
+        <ul>
+          <li><code>npm run check</code></li>
+          <li><code>npm run build</code></li>
+          <li><code>docker build -f Dockerfile.image -t batchvault_website:test .</code></li>
+          <li>Run container with a temp data volume and smoke <code>/healthz</code> plus landing page HTML if Docker is available.</li>
+          <li>Remove <code>dist</code> after local build verification to avoid committing generated output.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>Proposed GitHub Actions Shape</h2>
+    <div class="card">
+      <p>Workflow: <code>.github/workflows/build-image.yml</code></p>
+      <ul>
+        <li><code>on: push</code> to <code>main</code> and <code>workflow_dispatch</code>.</li>
+        <li><code>permissions: contents: read, packages: write</code>.</li>
+        <li><code>build_frontend</code> uploads <code>dist/client</code> as <code>frontend-dist</code>.</li>
+        <li><code>build_image</code> depends on <code>build_frontend</code>, downloads <code>frontend-dist</code>, and builds <code>ghcr.io/dzarlax/batchvault_website</code>.</li>
+      </ul>
+    </div>
+
+    <h2>Test Plan</h2>
+    <ul>
+      <li>Run <code>npm run check</code>.</li>
+      <li>Run <code>npm run build</code>.</li>
+      <li>Confirm <code>dist/client/index.html</code> exists before image build.</li>
+      <li>Run local Docker image build using the runtime-only Dockerfile.</li>
+      <li>Run a container smoke test:
+        <ul>
+          <li><code>GET /healthz</code> returns <code>{"ok":true}</code>.</li>
+          <li><code>GET /</code> returns the frontend HTML.</li>
+          <li><code>POST /api/leads</code> rejects missing contact with <code>400</code>.</li>
+        </ul>
+      </li>
+      <li>After push, check GitHub Actions status and GHCR package tags.</li>
+    </ul>
+
+    <h2>Manual QA Checklist</h2>
+    <ul>
+      <li>Open the local dev compose site at <code>http://localhost:5173/</code> and confirm the landing still loads.</li>
+      <li>Run the production container locally and open its exposed port.</li>
+      <li>Submit a test lead only with a clearly test contact if Telegram notification variables are configured.</li>
+      <li>Confirm SQLite writes go to mounted <code>/data</code>, not into the immutable image layer.</li>
+    </ul>
+
+    <h2>Risks</h2>
+    <ul>
+      <li><code>better-sqlite3</code> is a native dependency. If prebuilt binaries are unavailable for the GitHub runner or image platform, production install may need build tools in the Dockerfile.</li>
+      <li>GitHub repo name <code>BatchVault_Website</code> is fine for GitHub, but the image name must remain lowercase.</li>
+      <li>If the deploy stack later expects a different image name, personal deploy config must be updated together with the GHCR package reference.</li>
+      <li>If the current local screenshots are not ignored, they can accidentally enter the first commit.</li>
+      <li>GitHub package visibility and permissions may need a one-time UI adjustment if the image is used by a private VPS pull.</li>
+    </ul>
+
+    <h2>Rollback Plan</h2>
+    <ul>
+      <li>If the workflow fails, revert the workflow and Dockerfile changes while keeping the landing code intact.</li>
+      <li>If repo initialization is wrong before push, remove the local <code>.git</code> folder only after explicit confirmation.</li>
+      <li>If the GitHub repo is created with the wrong name, rename it in GitHub before publishing deploy references.</li>
+      <li>If GHCR image naming is wrong, stop publishing the bad package and update workflow tags before wiring deployment.</li>
+    </ul>
+
+    <h2>Open Questions</h2>
+    <ul>
+      <li>Confirm GitHub owner: should the repo be <code>dzarlax/BatchVault_Website</code>?</li>
+      <li>Confirm GHCR image slug: should it be <code>ghcr.io/dzarlax/batchvault_website</code>?</li>
+      <li>Should this plan also update <code>personal_ai_stack</code> deploy compose now, or should that be a separate follow-up after the image builds successfully?</li>
+      <li>Should the workflow publish on every push to <code>main</code>, or only on tags/manual dispatch until the landing is ready for production?</li>
+    </ul>
+
+    <section class="card approval">
+      <h2>Approval Gate</h2>
+      <p>No production/repository changes should be made until approved. After approval I will implement the repo setup files, GitHub Actions workflow, runtime-only image build path, and local verification. I will not push commits or create the GitHub repository unless you explicitly approve that step.</p>
+    </section>
+
+    <h2>Implementation Update</h2>
+    <p>Updated after approval on 2026-06-03.</p>
+    <ul>
+      <li>Initialized a local git repository in <code>D:\Projects\Code\Personal\BatchVault\WebSite</code> on branch <code>main</code>.</li>
+      <li>Added <code>Dockerfile.image</code> for runtime image builds from prebuilt <code>dist/client</code>.</li>
+      <li>Added <code>.github/workflows/build-image.yml</code> with separate <code>build_frontend</code> and <code>build_image</code> jobs.</li>
+      <li>Added <code>README.md</code>, <code>AGENTS.md</code>, and <code>.env.example</code>.</li>
+      <li>Updated <code>.gitignore</code> and <code>.dockerignore</code> to exclude local data, generated screenshots, Playwright output, and node modules while allowing <code>dist/client</code> into the image build context.</li>
+      <li>Removed local screenshot artifacts created during browser QA.</li>
+    </ul>
+
+    <h2>Checks Run</h2>
+    <ul>
+      <li><code>npm run check</code> passed.</li>
+      <li><code>npm run build</code> passed and produced <code>dist/client</code>.</li>
+      <li><code>docker build -f Dockerfile.image -t batchvault_website:test .</code> passed.</li>
+      <li>Started a temporary container from <code>batchvault_website:test</code> on port <code>8788</code>.</li>
+      <li><code>GET /healthz</code> returned <code>200</code> with <code>{"ok":true}</code>.</li>
+      <li><code>GET /</code> returned <code>200</code> and included the frontend root element.</li>
+      <li><code>POST /api/leads</code> without contact returned <code>400</code> with <code>contact_required</code>.</li>
+      <li>The temporary smoke-test container was stopped.</li>
+      <li>Generated <code>dist</code> was removed after verification.</li>
+    </ul>
+
+    <h2>Known Limitations</h2>
+    <ul>
+      <li>The GitHub repository <code>https://github.com/dzarlax/BatchVault_Website</code> has been created.</li>
+      <li>The initial local commit <code>70e5add</code> has been created.</li>
+      <li><code>origin</code> points to <code>https://github.com/dzarlax/BatchVault_Website.git</code>.</li>
+      <li>Push is currently blocked because the GitHub CLI OAuth token lacks the <code>workflow</code> scope required to push <code>.github/workflows/build-image.yml</code>.</li>
+      <li>Attempting an SSH push also failed because the available SSH key was not accepted by GitHub for this repository.</li>
+      <li>The GHCR image workflow has been validated locally only through Docker build and runtime smoke, not by a live GitHub Actions run.</li>
+    </ul>
+
+    <h2>Follow-up Recommendation</h2>
+    <ul>
+      <li>Refresh GitHub CLI auth with <code>workflow</code> scope, then push <code>main</code> and verify the GitHub Actions run and GHCR package <code>ghcr.io/dzarlax/batchvault_website</code>.</li>
+      <li>After the first successful GHCR image build, update the deployment stack in a separate, explicit deploy-config step.</li>
+    </ul>
+  </main>
+</body>
+</html>

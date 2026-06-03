@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BatchVault Landing Leads Container Plan</title>
+  <style>
+    :root {
+      --ink: #1f1715;
+      --muted: #6f625d;
+      --paper: #fffaf3;
+      --line: #e5d8c9;
+      --burgundy: #7b273a;
+      --copper: #b96f37;
+      --sage: #496f59;
+      --warn: #8b5a1f;
+      --ok: #245d3d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #f4eadf;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(980px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 36px 0 64px;
+    }
+
+    header, section {
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 250, 243, .86);
+      box-shadow: 0 16px 44px rgba(54, 31, 22, .08);
+    }
+
+    header {
+      padding: 30px;
+      background: linear-gradient(135deg, #fffaf3, #f4dfca);
+    }
+
+    section {
+      padding: 24px;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 10px;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 12px;
+      color: var(--burgundy);
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .meta div,
+    .callout {
+      padding: 12px 14px;
+      border: 1px solid rgba(123, 39, 58, .14);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .58);
+    }
+
+    .meta b {
+      display: block;
+      color: var(--burgundy);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(139, 90, 31, .12);
+      color: var(--warn);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    ul, ol {
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #f1e4d6;
+      color: #4f1d2a;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: .92em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--burgundy);
+      background: #f7eadc;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .approval {
+      border-color: rgba(36, 93, 61, .28);
+      background: rgba(36, 93, 61, .08);
+    }
+
+    .approval h2 {
+      color: var(--ok);
+    }
+
+    @media (max-width: 720px) {
+      .meta,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="status">Approval required before implementation</span>
+      <h1>BatchVault landing leads and container plan</h1>
+      <p class="muted">Plan date: 2026-06-02. Scope: turn the current static landing page into a small deployable website service that serves the landing page and collects contact leads without making the landing heavy.</p>
+      <div class="meta">
+        <div><b>Current workspace</b>D:\Projects\Code\Personal\BatchVault\WebSite</div>
+        <div><b>Related repos inspected</b>BatchVault_Back, BatchVault_Front, personal_ai_stack/deploy/jerkyvault</div>
+        <div><b>Primary recommendation</b>Node + Vite React website container with SQLite leads storage and Telegram notifications</div>
+        <div><b>Non-goal</b>No CRM, no admin panel, no marketing automation in this pass</div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Task Summary</h2>
+      <p>Replace the current <code>mailto:</code>-only contact form with a normal lead collection path while keeping the landing page simple. The website should be a Node/Vite React app with a small Fastify API, containerized for deployment behind Traefik, storing leads in SQLite on a persistent volume and optionally notifying Telegram.</p>
+    </section>
+
+    <section>
+      <h2>Current Behavior</h2>
+      <ul>
+        <li><code>WebSite/index.html</code> is a static single-file landing page with SR/RU/EN copy and a contact form.</li>
+        <li>The form currently opens a prepared email to <code>hello@batchvault.app</code>; it does not centrally store leads.</li>
+        <li><code>BatchVault_Back</code> is a Go/Gin/GORM/Postgres backend. Its main <code>/api</code> group is protected by JWT and workspace middleware after auth routes.</li>
+        <li>Backend migrations are run through <code>database.ConnectDatabase()</code> and <code>DB.AutoMigrate(...)</code>.</li>
+        <li>Production deployment for the product currently lives in <code>personal_ai_stack/deploy/jerkyvault/docker-compose.yaml</code> with Traefik labels for frontend and backend containers.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Desired Behavior</h2>
+      <ul>
+        <li>The landing remains visually and technically simple: one page, three languages, no heavy frontend framework.</li>
+        <li>The contact form submits to a public API endpoint, receives a clear success/failure response, and does not require auth.</li>
+        <li>Leads are stored in a local SQLite database on a persistent Docker volume with enough context to follow up and understand source language.</li>
+        <li>After a successful lead insert, the service can send a Telegram notification to the configured chat.</li>
+        <li>The website runs as a small container and can be added to the existing Traefik deployment.</li>
+        <li>Lead collection has basic abuse controls: rate limiting, input validation, length limits, and a honeypot field.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Recommended Architecture</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Website service</h3>
+          <p>Build a Node service inside <code>WebSite</code>. Vite/React renders the landing page. Fastify serves the production build, exposes <code>POST /api/leads</code>, opens SQLite at <code>LEADS_DB_PATH</code>, and runs a minimal table creation/migration on startup.</p>
+        </div>
+        <div class="card">
+          <h3>Why React here</h3>
+          <p>The landing already has multiple sections, three languages, form states, and future copy/design iteration. React keeps the page maintainable without making the public experience heavy. The production build remains static assets plus one small API server.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px;">
+        <strong>Alternative:</strong> add <code>POST /api/leads</code> to <code>BatchVault_Back</code> and store in Postgres. This is less container sprawl, but it couples public marketing traffic to the product API and main product DB. For this landing page, SQLite is the cleaner default.
+      </div>
+      <div class="callout" style="margin-top:14px;">
+        <strong>Telegram notification:</strong> configure <code>TELEGRAM_BOT_TOKEN</code> and <code>TELEGRAM_CHAT_ID</code>. Notifications should be best-effort: a Telegram failure must not lose the saved lead or show a failed submission after the DB insert succeeds.
+      </div>
+    </section>
+
+    <section>
+      <h2>Data Model</h2>
+      <table>
+        <thead>
+          <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>id</code></td><td>bigserial primary key</td><td>Internal lead id.</td></tr>
+          <tr><td><code>name</code></td><td>text nullable</td><td>Optional contact name.</td></tr>
+          <tr><td><code>contact</code></td><td>text not null</td><td>Email, phone, Instagram, Telegram, or other reply channel.</td></tr>
+          <tr><td><code>product</code></td><td>text nullable</td><td>What they produce.</td></tr>
+          <tr><td><code>message</code></td><td>text nullable</td><td>Short note from the form.</td></tr>
+          <tr><td><code>language</code></td><td>text not null</td><td>Current landing language: <code>sr</code>, <code>ru</code>, or <code>en</code>.</td></tr>
+          <tr><td><code>source</code></td><td>text nullable</td><td>Page/source identifier, initially <code>batchvault-landing</code>.</td></tr>
+          <tr><td><code>user_agent</code></td><td>text nullable</td><td>Debug/fraud context, truncated.</td></tr>
+          <tr><td><code>remote_addr_hash</code></td><td>text nullable</td><td>Optional abuse-control hash instead of raw IP.</td></tr>
+          <tr><td><code>created_at</code></td><td>timestamptz not null</td><td>Submission time.</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">The plan intentionally avoids storing raw IP by default. The SQLite file should live on a Docker volume such as <code>/data/batchvault-landing/leads.db</code>.</p>
+    </section>
+
+    <section>
+      <h2>Likely File Changes</h2>
+      <ul>
+        <li><code>WebSite/package.json</code>, <code>vite.config.ts</code>, and <code>tsconfig.json</code> for the React/Vite app.</li>
+        <li><code>WebSite/src/...</code> for landing sections, localized copy, shadcn-like local UI primitives, and form state.</li>
+        <li><code>WebSite/server/index.js</code> for Fastify static serving, SQLite connection, lead endpoint, validation, Telegram notification, and rate limiting.</li>
+        <li><code>WebSite/index.html</code> as the Vite root entry.</li>
+        <li><code>WebSite/Dockerfile</code> for production build and runtime.</li>
+        <li><code>WebSite/docker-compose.dev.yml</code> for local dev with Vite hot reload, watched API server, and persisted SQLite volume.</li>
+        <li><code>WebSite/.dockerignore</code> for lean container builds.</li>
+        <li>Later, after approval and implementation: <code>personal_ai_stack/deploy/...</code> compose entry for the deployed website container, SQLite volume, and Telegram env vars. This should be a separate deploy-track edit because it lives outside this repo.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Implementation Steps</h2>
+      <ol>
+        <li>Create the Vite React website in <code>WebSite</code> and move the landing into componentized source files.</li>
+        <li>Create the Fastify API with <code>GET /healthz</code> and <code>POST /api/leads</code>. In production it also serves the Vite build.</li>
+        <li>Add startup migration for <code>landing_leads</code> in SQLite using explicit SQL. Keep the table creation obvious and dependency-light.</li>
+        <li>Add validation: required <code>contact</code>, max lengths, accepted language values, JSON-only body, and honeypot rejection.</li>
+        <li>Add simple per-IP or per-hash rate limiting. If raw IP storage is avoided, use in-memory request rate limiting at runtime and optional salted hash only in the lead row.</li>
+        <li>After the lead is inserted, send a best-effort Telegram message with name, contact, product, language, and message preview.</li>
+        <li>Change the React form to submit JSON to <code>/api/leads</code>, then show localized success/failure text. Keep email as visible fallback copy.</li>
+        <li>Add Dockerfile and hot-reload dev compose.</li>
+        <li>Run local service and submit a test lead to the SQLite file.</li>
+        <li>After approval for deploy work, add a website service to the deployment compose with Traefik host labels and production env vars.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Test Plan</h2>
+      <ul>
+        <li><code>go test ./...</code> in <code>WebSite</code> for validation and handler behavior.</li>
+        <li>Manual browser test for SR/RU/EN form labels, submission success, missing-contact validation, and no horizontal overflow.</li>
+        <li>SQLite verification: confirm one inserted row has expected contact, language, source, and timestamp.</li>
+        <li>Telegram verification: with test env vars, confirm one lead sends one readable Telegram notification. With missing/invalid Telegram env vars, confirm the lead still saves and the response remains successful.</li>
+        <li>Container build test: <code>docker build</code> for the website image.</li>
+        <li>Local container smoke: health endpoint returns 200 and landing loads.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Manual QA Checklist</h2>
+      <ul>
+        <li>Landing still opens at <code>/</code> and preserves the current visual style.</li>
+        <li>Language switcher still updates hero, pricing, and form copy.</li>
+        <li>Contact form can submit without reloading the page.</li>
+        <li>Success message is localized and does not overpromise immediate response.</li>
+        <li>Spam honeypot field is invisible to normal users.</li>
+        <li>Network failure shows a localized fallback telling the user to email directly.</li>
+        <li>Mobile viewport remains readable and does not horizontally scroll.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Risks</h2>
+      <ul>
+        <li><strong>Spam:</strong> public forms get spam. Mitigation: honeypot, rate limit, max lengths, and no heavy captcha in the first pass.</li>
+        <li><strong>Privacy:</strong> storing contact data creates responsibility. Mitigation: store only submitted fields, avoid raw IP by default, keep records easy to delete/export from SQLite.</li>
+        <li><strong>Deploy drift:</strong> website container and product containers could diverge. Mitigation: keep a clear compose entry and smoke checklist.</li>
+        <li><strong>SQLite persistence:</strong> losing the Docker volume would lose leads. Mitigation: explicit named volume or host bind mount plus backup/export instructions.</li>
+        <li><strong>Telegram failure:</strong> Telegram can be down or misconfigured. Mitigation: save first, notify second, log notification errors without failing the form.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Rollback Plan</h2>
+      <ul>
+        <li>Frontend rollback: restore the form to the existing <code>mailto:</code> behavior.</li>
+        <li>Service rollback: remove the website container from compose and serve static HTML again.</li>
+        <li>DB rollback: keep the SQLite file for audit/export, or archive/delete it after confirming no useful leads are inside.</li>
+        <li>Deploy rollback: revert the Traefik route/service entry to the previous known-good compose.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Open Questions</h2>
+      <ol>
+        <li>What public hostname should the website use: <code>batchvault.app</code>, <code>www.batchvault.app</code>, a <code>jerky.in.rs</code> subdomain, or something else?</li>
+        <li>What public hostname should the website use: <code>batchvault.app</code>, <code>www.batchvault.app</code>, a <code>jerky.in.rs</code> subdomain, or something else?</li>
+        <li>Where should the SQLite file live on the VPS: named Docker volume or explicit bind mount path?</li>
+        <li>Which Telegram bot/chat should receive notifications?</li>
+        <li>What email address should remain as the fallback: <code>hello@batchvault.app</code> or another address?</li>
+      </ol>
+    </section>
+
+    <section class="approval">
+      <h2>Approval Gate</h2>
+      <p>No production code, lead endpoint, SQLite schema, container, Telegram integration, or deploy changes should be made until this plan is approved. If approved, implementation should start in <code>WebSite</code> only. Deployment compose changes should be treated as a follow-up approval step because they touch <code>personal_ai_stack</code>.</p>
+    </section>
+  </main>
+</body>
+</html>

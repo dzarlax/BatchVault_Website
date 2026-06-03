@@ -1,0 +1,13 @@
+node_modules
+.data
+.git
+mockups
+docs/ai-plans
+.playwright-mcp
+*.log
+/batchvault-*.png
+
+dist/*
+!dist/
+!dist/client/
+!dist/client/**
