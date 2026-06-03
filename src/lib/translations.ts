@@ -83,10 +83,12 @@ export const copy = {
     formSubmitting: 'Šaljem...',
     formNote: 'Forma čuva upit i šalje obaveštenje. Email ostaje fallback.',
     formSuccess: 'Hvala. Sačuvao sam upit i javiću se uskoro.',
-    formError: 'Nije uspelo slanje. Možeš mi pisati direktno na hello@batchvault.app.',
+    formError: 'Nije uspelo slanje. Pokušaj kasnije ili koristi kontakt link u footeru.',
     formMissingContact: 'Unesi kontakt da mogu da ti odgovorim.',
     footerText: 'Red za male proizvođače hrane: recepti, troškovi, porudžbine, kupci i profit.',
     footerContact: 'Kontakt',
+    footerPrivacy: 'Privacy Policy',
+    footerDataDeletion: 'Brisanje podataka',
     footerPilot: 'Pilot pristup'
   },
   ru: {
@@ -165,10 +167,12 @@ export const copy = {
     formSubmitting: 'Отправляю...',
     formNote: 'Форма сохраняет заявку и отправляет уведомление. Email остается запасным вариантом.',
     formSuccess: 'Спасибо. Заявка сохранена, я скоро отвечу.',
-    formError: 'Не удалось отправить. Можно написать напрямую на hello@batchvault.app.',
+    formError: 'Не удалось отправить. Попробуйте позже или используйте контактную ссылку в футере.',
     formMissingContact: 'Укажи контакт, чтобы я мог ответить.',
     footerText: 'Порядок для малых производителей еды: рецепты, затраты, заказы, клиенты и прибыль.',
     footerContact: 'Контакт',
+    footerPrivacy: 'Конфиденциальность',
+    footerDataDeletion: 'Удаление данных',
     footerPilot: 'Пилотный доступ'
   },
   en: {
@@ -247,10 +251,12 @@ export const copy = {
     formSubmitting: 'Sending...',
     formNote: 'The form saves your request and sends a notification. Email remains as a fallback.',
     formSuccess: 'Thanks. The request is saved and I will reply soon.',
-    formError: 'Could not send it. You can write directly to hello@batchvault.app.',
+    formError: 'Could not send it. Try again later or use the contact link in the footer.',
     formMissingContact: 'Add a contact so I can reply.',
     footerText: 'Order for small food producers: recipes, costs, orders, clients, and profit.',
     footerContact: 'Contact',
+    footerPrivacy: 'Privacy Policy',
+    footerDataDeletion: 'Data deletion',
     footerPilot: 'Pilot access'
   }
 } satisfies Record<Language, Record<string, string>>;

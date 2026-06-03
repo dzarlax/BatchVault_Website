@@ -212,7 +212,7 @@
       <h2>Current Behavior</h2>
       <ul>
         <li><code>WebSite/index.html</code> is a static single-file landing page with SR/RU/EN copy and a contact form.</li>
-        <li>The form currently opens a prepared email to <code>hello@batchvault.app</code>; it does not centrally store leads.</li>
+        <li>The form currently opens a prepared email to <code>me [at] dzarlax [dot] dev</code>; it does not centrally store leads.</li>
         <li><code>BatchVault_Back</code> is a Go/Gin/GORM/Postgres backend. Its main <code>/api</code> group is protected by JWT and workspace middleware after auth routes.</li>
         <li>Backend migrations are run through <code>database.ConnectDatabase()</code> and <code>DB.AutoMigrate(...)</code>.</li>
         <li>Production deployment for the product currently lives in <code>personal_ai_stack/deploy/jerkyvault/docker-compose.yaml</code> with Traefik labels for frontend and backend containers.</li>
@@ -356,7 +356,7 @@
         <li>What public hostname should the website use: <code>batchvault.app</code>, <code>www.batchvault.app</code>, a <code>jerky.in.rs</code> subdomain, or something else?</li>
         <li>Where should the SQLite file live on the VPS: named Docker volume or explicit bind mount path?</li>
         <li>Which Telegram bot/chat should receive notifications?</li>
-        <li>What email address should remain as the fallback: <code>hello@batchvault.app</code> or another address?</li>
+        <li>What email address should remain as the fallback: <code>me [at] dzarlax [dot] dev</code> or another address?</li>
       </ol>
     </section>
 
