@@ -1185,10 +1185,79 @@ h1 {
   }
 
   .trust-grid,
-  .flow-grid,
   .price-panel ul,
   .form-row {
     grid-template-columns: 1fr;
+  }
+
+  .flow-grid {
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .flow-grid::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    bottom: 22px;
+    left: 18px;
+    width: 1px;
+    background: rgba(123, 39, 58, 0.16);
+  }
+
+  :root[data-theme="dark"] .flow-grid::before {
+    background: rgba(195, 90, 112, 0.22);
+  }
+
+  .flow-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    grid-template-areas:
+      "number title"
+      "number text";
+    column-gap: 14px;
+    min-height: 0;
+    padding: 15px 0 16px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .flow-card + .flow-card {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  :root[data-theme="dark"] .flow-card + .flow-card {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .flow-number {
+    grid-area: number;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    align-self: start;
+    border: 3px solid var(--bg);
+    font-size: 13px;
+  }
+
+  .flow-card b {
+    grid-area: title;
+    margin: 1px 0 5px;
+    font-size: 18px;
+    line-height: 1.12;
+  }
+
+  .flow-card span:last-child {
+    grid-area: text;
+    font-size: 14px;
+    line-height: 1.38;
   }
 
   .stage {
